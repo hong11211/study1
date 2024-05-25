@@ -12,26 +12,82 @@
 
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
 
-  <script src="./echarts.js"></script>
+  <!--<script src="./echarts.js"></script>-->
 
   <style>
     body{
       text-align: center;
-    }
+      }
     .form-control{
       width: 350px;
       display: flex;
       margin: auto;
-      text-align: center;
+      
     }
+
+    .input-box {
+      opacity: 0;
+      transition: opacity 1s;
+      position: absolute;
+      width: 100%;
+      top: 20px;
+      animation-name: down; 
+      animation-duration: 2s;
+    }
+    
+    .input-box.show{
+      opacity: 1;
+      position: relative;
+    }
+    /* 
+    @keyframes ani{
+      0%{transform: translateY(10px)};
+      100%{transform: translateY(-10px)};
+    }
+    @keyframes down{
+      0%{transform: translateY(-10px)};
+      100%{transform: translateY(10px)};
+    } */
+ /*  #namecss{
+      
+      /*bottom: 5px;
+      transition: bottom 1s;
+    }
+    #idcss:focus{
+      /*bottom: 94px;
+      transition: bottom 1s;
+    }
+    #passwordcss:focus{
+      /*bottom: 188px;
+      transition: bottom 1s
+    }
+    #pwchcss{
+      bottom: 190px;
+      transition: bottom 1s;
+    }
+    #emailcss{
+      bottom: 376px;
+      transition: bottom 1s;
+    }
+    #sign{
+      bottom: 176px;
+      transition: bottom 1s;
+    }
+    */
   </style>
 </head>
 <body>
-  <h1>회원가입</h1>
+  
+  
+
   <div id="input-wrap">
-      <div>
+<div class="position-relative">
+  <div class="d-flex" style="height: 100vh;">
+    <div class="m-auto">
+      <h1>회원가입</h1>
+      <div class="input-box show">
         <h5 style="margin-right: 300px;">이름</h5>
-      <input type="text" id="name" class="form-control" placeholder="이름입력(2글자 이상)">
+      <input type="text" id="name" class="form-control" placeholder="이름입력(2글자 이상)" autofocus>
       <div id="name_valid" class="valid-feedback">
         올바른 형식입니다.
       </div>
@@ -40,7 +96,7 @@
       </div>
   </div>
 
-  <div>
+  <div class="input-box d-none">
     <h5 style="margin-right: 250px;">id 입력</h5>
     <input type="text" id="id" class="form-control" placeholder="id입력(영어대소문자 포함, 4글자 이상)">
     <div id="id_valid" class="valid-feedback">
@@ -51,7 +107,8 @@
     </div>
   </div>
 
-  <div>
+<div class="input-box d-none">
+  <div class="input-box d-none position-relative">
     <h5 style="margin-right: 300px;">비밀번호 입력</h5>
     <input type="password" id="password" class="form-control" placeholder="비밀번호 입력(#,영어대소문자 포함,8글자 이상)">
     <div id="password_valid" class="valid-feedback">
@@ -62,7 +119,7 @@
     </div>
   </div>
 
-  <div>
+<div class="input-box d-none position-relative">
     <h5 style="margin-right: 300px;">비밀번호 확인</h5>
     <input type="password" id="password_check" class="form-control" placeholder="비밀번호 확인">
     <div id="password_ch_valid" class="valid-feedback">
@@ -71,9 +128,10 @@
     <div id="password_ch_invalid" class="invalid-feedback">
       올바르지 못한 형식이 존재합니다.
     </div>
-  </div>
+</div>
+</div>
 
-  <div>
+  <div class="input-box d-none">
     <h5 style="margin-right: 300px;">이메일 입력</h5>
     <input type="email" id="email" class="form-control" placeholder="이메일 입력">
     <div id="email_valid" class="valid-feedback">
@@ -84,8 +142,13 @@
     </div>
   </div>
     
+  <div class="input-box d-none">
+  <button id="signin" class="btn btn-success ">가입하기</button>
   </div>
-  <button id="signin" class="btn btn-success">가입하기</button>
+</div>
+</div>
+</div>
+</div>
 
 
   <script>
@@ -107,6 +170,7 @@
         var val = $("#"+id).val();
         var ret = callbak(val);
         if(ret){
+         
           $("#"+id).removeClass("is-valid");
           $("#"+id).addClass("is-invalid");
           $("#"+id).siblings(".invalid-feedback").text(ret);
@@ -160,14 +224,104 @@
     
 
     $("#signin").on('click', function() {
-      if(name_right && id_right && password_right && password_ch_right && email_right){
         alert("성공");
-      } else{
-        alert("잘못된 형식");
-      }
     });
 
+
+    $('#name').on('keydown' , function(evt) {
+     if( evt.code === 'Enter' ){
+      if ( $(this).hasClass('is-valid') ) {
+        $('#id').focus();
+        $(this).parent('.input-box').removeClass('show');
+        $('#id').parent('.input-box').removeClass('d-none');
+        setTimeout(function() {
+          $('#id').parent('.input-box').addClass('show');
+        }, 1000);
+        
+      }
+     }
+    });
+
+    $('#id').on('keydown' , function(evt) {
+     if( evt.code === 'Enter' ){
+      if ( $(this).hasClass('is-valid') ) {
+        $(this).parent('.input-box').removeClass('show');
+
+        $('#password').parent('.input-box').parent('.input-box').removeClass('d-none');
+        $('#password').parent('.input-box').parent('.input-box').addClass('show');
+        $('#password').parent('.input-box').removeClass('d-none');
+        $('#password_check').parent('.input-box').removeClass('d-none');
+        setTimeout(function() {
+          $('#password_check').parent('.input-box').addClass('show');
+          $('#password').parent('.input-box').addClass('show');
+        },1000);
+      }
+     }
+    });
+
+    $('#password_check').on('keydown' , function(evt) {
+     if( evt.code === 'Enter' ){
+      if ( $(this).hasClass('is-valid') ) {
+        $(this).parent('.input-box').removeClass('show');
+        $("#password").parent('.input-box').removeClass('show');
+        $('#password').parent('.input-box').parent('.input-box').removeClass('show');
+        $('#email').parent('.input-box').removeClass('d-none');
+        setTimeout(function() {
+          $('#email').parent('.input-box').addClass('show');
+        }, 1000);
+      }
+     }
+    });
+
+    $('#email').on('keydown' , function(evt) {
+     if( evt.code === 'Enter' ){
+      if ( $(this).hasClass('is-valid') ) {
+        $(this).parent('.input-box').removeClass('show');
+        $('#signin').parent('.input-box').removeClass('d-none');
+        setTimeout(function() {
+          $("#signin").parent('.input-box').addClass('show');
+        }, 1000);
+      }
+     }
+    });
+
+    var boxList = $('.input-box');
+    function showbox(box) {
+      $(box).removeClass('d-none');
+      setTimeout(function() {
+        $(box).addClass('show');
+        $(box).find('input').first().focus();
+      },500);
+    }
+    function hideBox(box){
+      $(box).removeClass('show');
+      setTimeout(function() {
+        $(box).addClass('d-none')
+      }, 500);
+    }
+    function registEvt(box,next){
+      var input = $(box).find('input').last();
+      $(input).on('keydown', function(evt) {
+        if(evt.code === 'Enter') {
+          if($(input).hasClass('is-valid') ){
+            hideBox(box);
+            showbox(next);
+          }
+        }
+      });
+    }
+    for(let i=0;i < boxList.length-1;i++){
+      var box = boxList[i];
+      var next = boxList[i+1];
+      registEvt(box, next);
+      if (i===0){
+        showbox(box);
+      }
+    }
     
+
+    
+
 
 
   </script>

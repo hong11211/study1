@@ -12,25 +12,35 @@
 
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
 
-  <script src="./echarts.js"></script>
+  <!--script src="./echarts.js"></script>-->
 
   <style>
     body{
       text-align: center;
+      
     }
     .form-control{
       width: 350px;
       display: flex;
       margin: auto;
-      text-align: center;
+      
+    }
+
+    .input-box {
+      opacity: 0;
+      transition: opacity 1s;
+    }
+    .input-box.show{
+      opacity: 1;
     }
   </style>
 </head>
 <body>
   <h1>회원가입</h1>
   <div id="input-wrap">
-    <h5 style="margin-right: 300px;">이름</h5>
-    <div>
+    <!--<h5 style="margin-right: 300px; ">이름</h5>!-->
+    <div class="input-box show">
+      <label>이름</label>
       <input type="text" id="name" class="form-control" placeholder="이름입력(2글자 이상)">
       <div id="name_valid" class="valid-feedback">
         올바른 형식입니다.
@@ -40,8 +50,9 @@
       </div>
     </div>
 
-    <h5 style="margin-right: 250px;">id 입력</h5>
-      <div>
+    <!--<h5 style="margin-right: 250px;">id 입력</h5>!-->
+      <div class="input-box">
+        <label>id입력</label>
       <input type="text" id="id" class="form-control" placeholder="id입력(영어대소문자 포함, 4글자 이상)">
       <div id="id_valid" class="valid-feedback">
         올바른 형식입니다.
@@ -49,9 +60,11 @@
       <div id="id_invalid" class="invalid-feedback">
         올바르지 못한 형식이 존재합니다.
       </div>
+      </div>
     
-    <h5 style="margin-right: 300px;">비밀번호 입력</h5>
-    <div>
+    <!--<h5 style="margin-right: 300px;">비밀번호 입력</h5>!-->
+    <div class="input-box">
+      <label>비밀번호 입력</label>
       <input type="password" id="password" class="form-control" placeholder="비밀번호 입력(#,영어대소문자 포함,8글자 이상)">
       <div id="password_valid" class="valid-feedback">
         올바른 형식입니다.
@@ -61,8 +74,9 @@
       </div>
     </div>
 
-    <h5 style="margin-right: 300px;">비밀번호 확인</h5>
-      <div>
+    <!--<h5 style="margin-right: 300px;">비밀번호 확인</h5>-->
+      <div class="input-box">
+        <label>비밀번호 확인</label>
       <input type="password" id="password_check" class="form-control" placeholder="비밀번호 확인">
       <div id="password_ch_valid" class="valid-feedback">
         올바른 형식입니다.
@@ -72,8 +86,9 @@
       </div>
     </div>
 
-    <h5 style="margin-right: 300px;">이메일 입력</h5>
-      <div>
+    <!--<h5 style="margin-right: 300px;">이메일 입력</h5>-->
+      <div class="input-box">
+        <label>이메일 입력</label>
       <input type="email" id="email" class="form-control" placeholder="이메일 입력">
       <div id="email_valid" class="valid-feedback">
         올바른 형식입니다.
@@ -83,7 +98,7 @@
       </div>
     </div>
   </div>
-  <button id="signin" class="btn btn-success">가입하기</button>
+  <button id="signin" class="btn btn-success d-none">가입하기</button>
 
 
   <script>
@@ -108,7 +123,7 @@
         $("#name").addClass("is-valid");
         $("#name").siblings(".valid-feedback").text("유효합니다.");
         name_right=true;
-      } else{
+      } else {
         $("#name").addClass("is-invalid");
         $("#name").removeClass("is-valid");
         $("#name").siblings(".invalid-feedback").text("2글자 이상이어야 합니다.");
@@ -211,6 +226,9 @@
         alert("잘못된 형식");
       }
     });
+
+
+    
 
     
 
